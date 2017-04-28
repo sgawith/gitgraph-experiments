@@ -1,4 +1,4 @@
-var graphConfig = new GitGraph.Template({
+const graphConfig = new GitGraph.Template({
     branch: {
         colors: ["#000", "red", "green", "yellow", "orange", "blue", "foreset green", "grey"],
         lineWidth: 3,
@@ -26,7 +26,7 @@ var graphConfig = new GitGraph.Template({
             displayAuthor: false,
             displayBranch: false,
             displayHash: false,
-            display: true
+            display: false
         }
     },
     arrow: {
@@ -35,24 +35,24 @@ var graphConfig = new GitGraph.Template({
     }
 });
 
-var config = {
+const config = {
     template: graphConfig,
     mode: "extended",
     orientation: "vertical-reverse",
     elementId: "current-pattern"
 };
 
-var masterCol = 7;
-var prodSupportCol = 6;
-var prodSupportFeatureCol = 5;
-var stagingCol = 4;
-var stagingFeatureCol = 3;
-var developCol = 2;
-var developFeatureCol = 1;
+const masterCol = 7;
+const prodSupportCol = 6;
+const prodSupportFeatureCol = 5;
+const stagingCol = 4;
+const stagingFeatureCol = 3;
+const developCol = 2;
+const developFeatureCol = 1;
 
-var blackarrow = new GitGraph(config);
+const blackarrow = new GitGraph(config);
 
-var masterBranch = blackarrow.branch({
+const masterBranch = blackarrow.branch({
     name: "master",
     column: masterCol
 });
@@ -61,21 +61,21 @@ masterBranch.tag({
     tag: "v1.1.0.0", tagColor: "yellow"
 });
 
-var developBranch = blackarrow.branch({
+const developBranch = blackarrow.branch({
     name: "development",
     parentBranch: masterBranch,
     column: developCol
 });
 developBranch.commit("creating dev branch");
 
-var stagingBranch = blackarrow.branch({
+const stagingBranch = blackarrow.branch({
     name: "staging",
     parentBranch: developBranch,
     column: stagingCol
 });
 stagingBranch.commit("Added unit tests");
 
-var prodSupportBranch = blackarrow.branch({
+const prodSupportBranch = blackarrow.branch({
     name: "production-support",
     parentBranch: masterBranch,
     column: prodSupportCol
@@ -85,7 +85,7 @@ prodSupportBranch.commit("Added unit tests");
 
 //DEVOLOPMENT
 // fixing a develop 1.2 feature
-var feature0002Branch = blackarrow.branch({
+const feature0002Branch = blackarrow.branch({
     name: "feature/DEV-1231",
     parentBranch: developBranch,
     column: developFeatureCol
@@ -95,7 +95,7 @@ feature0002Branch.merge(developBranch);
 
 //PRODUCTION SUPPORT BRANCH
 // Scenario 1 - fixing a critical bug in production
-var prodBug0001Branch = blackarrow.branch({
+const prodBug0001Branch = blackarrow.branch({
     name: "hotfix/DEV-2132",
     parentBranch: prodSupportBranch,
     column: prodSupportFeatureCol
@@ -109,7 +109,7 @@ prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, 
 });
 
 // fixing a develop 1.2 feature
-var feature0003Branch = blackarrow.branch({
+const feature0003Branch = blackarrow.branch({
     name: "feature/DEV-1232",
     parentBranch: developBranch,
     column: developFeatureCol
@@ -118,7 +118,7 @@ feature0003Branch.commit("Fixed feature");
 feature0003Branch.merge(developBranch);
 
 //STAGING BRANCH
-var stagingBug0001Branch = blackarrow.branch({
+const stagingBug0001Branch = blackarrow.branch({
     name: "bug/DEV-1212",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
@@ -128,7 +128,7 @@ stagingBug0001Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 
 // fixing a develop 1.2 bug
-var bug0004Branch = blackarrow.branch({
+const bug0004Branch = blackarrow.branch({
     name: "bug/DEV-1234",
     parentBranch: developBranch,
     column: developFeatureCol
@@ -137,7 +137,7 @@ bug0004Branch.commit("Fixed feature");
 bug0004Branch.merge(developBranch);
 
 //STAGING BRANCH
-var stagingBug0002Branch = blackarrow.branch({
+const stagingBug0002Branch = blackarrow.branch({
     name: "bug/DEV-1213",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
@@ -147,7 +147,7 @@ stagingBug0002Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 
 //PRODUCTION SUPPORT BRANCH
-var prodBug0002Branch = blackarrow.branch({
+const prodBug0002Branch = blackarrow.branch({
     name: "hotfix/DEV-2133",
     parentBranch: prodSupportBranch,
     column: prodSupportFeatureCol
@@ -161,7 +161,7 @@ prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, 
 });
 
 // fixing a develop 1.2 feature
-var feature0004Branch = blackarrow.branch({
+const feature0004Branch = blackarrow.branch({
     name: "feature/DEV-1236",
     parentBranch: developBranch,
     column: developFeatureCol
@@ -170,7 +170,7 @@ feature0004Branch.commit("Fixed feature");
 feature0004Branch.merge(developBranch);
 
 //STAGING BRANCH
-var stagingFeature0003Branch = blackarrow.branch({
+const stagingFeature0003Branch = blackarrow.branch({
     name: "feature/DEV-1422",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
@@ -180,7 +180,7 @@ stagingFeature0003Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 
 // fixing a develop 1.2 bug
-var devBug0005Branch = blackarrow.branch({
+const devBug0005Branch = blackarrow.branch({
     name: "bug/DEV-5312",
     parentBranch: developBranch,
     column: developFeatureCol
@@ -189,7 +189,7 @@ devBug0005Branch.commit("Fixed feature");
 devBug0005Branch.merge(developBranch);
 
 //STAGING BRANCH
-var stagingFeature0004Branch = blackarrow.branch({
+const stagingFeature0004Branch = blackarrow.branch({
     name: "feature/DEV-2137",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
@@ -199,7 +199,7 @@ stagingFeature0004Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 
 
-var prodBug0003Branch = blackarrow.branch({
+const prodBug0003Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
     parentBranch: prodSupportBranch,
     column: prodSupportFeatureCol
@@ -225,7 +225,7 @@ stagingBranch.merge(masterBranch,{
 });
 
 // fixing a develop 1.2 bug
-var devBug0006Branch = blackarrow.branch({
+const devBug0006Branch = blackarrow.branch({
     name: "bug/DEV-4876",
     parentBranch: developBranch,
     column: developFeatureCol
@@ -233,13 +233,26 @@ var devBug0006Branch = blackarrow.branch({
 devBug0006Branch.commit("Fixed bug");
 devBug0006Branch.merge(developBranch);
 
+const prodBug0004Branch = blackarrow.branch({
+    name: "hotfix/DEV-2134",
+    parentBranch: prodSupportBranch,
+    column: prodSupportFeatureCol
+});
+prodBug0004Branch.commit("Fixed bug");
+prodBug0004Branch.merge(prodSupportBranch);
+prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.1.1.1 tagged",
+    tag: "v1.1.1.1"
+});
+
 developBranch.merge(stagingBranch,{
     displayTagBox: false,
-    tag: "v1.2.1.0",
+    tag: "v1.2.0.0",
     tagColor: "orange"
 });
 
-var stagingFeature0005Branch = blackarrow.branch({
+const stagingFeature0005Branch = blackarrow.branch({
     name: "feature/DEV-3212",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
@@ -249,6 +262,13 @@ stagingFeature0005Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 stagingBranch.merge(masterBranch, {
     dotStrokeWidth: 10,
-    message: "Release v1.2.0.0 tagged",
-    tag: "v1.2.0.0"
+    message: "Release v1.2.0.1 tagged",
+    tag: "v1.2.0.1"
 });
+
+stagingBranch.tag({
+    displayTagBox: false,
+    tag: "v1.2.1.0",
+    tagColor: "orange"
+});
+
