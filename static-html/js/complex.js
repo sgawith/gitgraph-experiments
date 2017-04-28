@@ -102,6 +102,11 @@ var prodBug0001Branch = blackarrow.branch({
 });
 prodBug0001Branch.commit("Fixed bug");
 prodBug0001Branch.merge(prodSupportBranch);
+prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.1.0.1 tagged",
+    tag: "v1.1.0.1"
+});
 
 // fixing a develop 1.2 feature
 var feature0003Branch = blackarrow.branch({
@@ -113,13 +118,14 @@ feature0003Branch.commit("Fixed feature");
 feature0003Branch.merge(developBranch);
 
 //STAGING BRANCH
-var stagingFeature0001Branch = blackarrow.branch({
-    name: "feature/DEV-1212",
+var stagingBug0001Branch = blackarrow.branch({
+    name: "bug/DEV-1212",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
 });
-stagingFeature0001Branch.commit("Fixed feature");
-stagingFeature0001Branch.merge(stagingBranch);
+stagingBug0001Branch.commit("Fixed bug");
+stagingBug0001Branch.merge(stagingBranch);
+stagingBranch.merge(developBranch);
 
 // fixing a develop 1.2 bug
 var bug0004Branch = blackarrow.branch({
@@ -131,13 +137,14 @@ bug0004Branch.commit("Fixed feature");
 bug0004Branch.merge(developBranch);
 
 //STAGING BRANCH
-var stagingFeature0002Branch = blackarrow.branch({
-    name: "feature/DEV-1213",
+var stagingBug0002Branch = blackarrow.branch({
+    name: "bug/DEV-1213",
     parentBranch: stagingBranch,
     column: stagingFeatureCol
 });
-stagingFeature0002Branch.commit("Fixed feature");
-stagingFeature0002Branch.merge(stagingBranch);
+stagingBug0002Branch.commit("Fixed bug");
+stagingBug0002Branch.merge(stagingBranch);
+stagingBranch.merge(developBranch);
 
 //PRODUCTION SUPPORT BRANCH
 var prodBug0002Branch = blackarrow.branch({
@@ -149,8 +156,8 @@ prodBug0002Branch.commit("Fixed bug");
 prodBug0002Branch.merge(prodSupportBranch);
 prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
     dotStrokeWidth: 10,
-    message: "Release v1.1.0.1 tagged",
-    tag: "v1.1.0.1"
+    message: "Release v1.1.0.2 tagged",
+    tag: "v1.1.0.2"
 });
 
 // fixing a develop 1.2 feature
@@ -170,6 +177,7 @@ var stagingFeature0003Branch = blackarrow.branch({
 });
 stagingFeature0003Branch.commit("Fixed feature");
 stagingFeature0003Branch.merge(stagingBranch);
+stagingBranch.merge(developBranch);
 
 // fixing a develop 1.2 bug
 var devBug0005Branch = blackarrow.branch({
@@ -188,6 +196,7 @@ var stagingFeature0004Branch = blackarrow.branch({
 });
 stagingFeature0004Branch.commit("Fixed feature");
 stagingFeature0004Branch.merge(stagingBranch);
+stagingBranch.merge(developBranch);
 
 var prodBug0003Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
@@ -199,6 +208,6 @@ prodBug0003Branch.merge(prodSupportBranch);
 
 prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
     dotStrokeWidth: 10,
-    message: "Release v1.1.0.2 tagged",
-    tag: "v1.1.0.2"
+    message: "Release v1.1.0.3 tagged",
+    tag: "v1.1.0.3"
 });
