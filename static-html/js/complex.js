@@ -10,6 +10,7 @@ const graphConfig = new GitGraph.Template({
     },
     commit: {
         showMessage: false,
+        sha1:"Dev Team",
         spacingY: -30,
         dot: {
             size: 8,
@@ -32,6 +33,10 @@ const graphConfig = new GitGraph.Template({
     arrow: {
         size: 8,
         offset: 0
+    },
+    shouldDisplayTooltipsInCompactMode: true, // default = true
+    tooltipHTMLFormatter: function ( commit ) {
+        return "Dev team: "+commit.message;
     }
 });
 
@@ -39,7 +44,8 @@ const config = {
     template: graphConfig,
     mode: "extended",
     orientation: "vertical-reverse",
-    elementId: "current-pattern"
+    elementId: "current-pattern",
+    mode:"compact"
 };
 
 const masterCol = 7;
@@ -58,7 +64,7 @@ const masterBranch = blackarrow.branch({
 });
 masterBranch.commit("Created new repo");
 masterBranch.tag({
-    tag: "v1.1.0.0", tagColor: "yellow"
+    tag: "v1.1.0.0", tagColor: "green"
 });
 
 const developBranch = blackarrow.branch({
@@ -214,7 +220,7 @@ prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, 
 });
 
 stagingBranch.tag({
-    displayTagBox: false,
+    displayTagBox: true,
     tag: "v1.1.1.0",
     tagColor: "orange"
 });
@@ -243,11 +249,12 @@ prodBug0004Branch.merge(prodSupportBranch);
 prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
     dotStrokeWidth: 10,
     message: "Release v1.1.1.1 tagged",
-    tag: "v1.1.1.1"
+    tag: "v1.1.1.1",
+    tagColor:"green"
 });
 
 developBranch.merge(stagingBranch,{
-    displayTagBox: false,
+    displayTagBox: true,
     tag: "v1.2.0.0",
     tagColor: "orange"
 });
@@ -257,17 +264,19 @@ const stagingFeature0005Branch = blackarrow.branch({
     parentBranch: stagingBranch,
     column: stagingFeatureCol
 });
-stagingFeature0005Branch.commit("Fixed feature");
+stagingFeature0005Branch.commit("Hot fix for 1.2.0.1");
 stagingFeature0005Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 stagingBranch.merge(masterBranch, {
     dotStrokeWidth: 10,
     message: "Release v1.2.0.1 tagged",
-    tag: "v1.2.0.1"
+    tag: "v1.2.0.1",
+    tagColor:"green"
+
 });
 
 stagingBranch.tag({
-    displayTagBox: false,
+    displayTagBox: true,
     tag: "v1.2.1.0",
     tagColor: "orange"
 });
