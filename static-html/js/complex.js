@@ -26,7 +26,7 @@ var graphConfig = new GitGraph.Template({
             displayAuthor: false,
             displayBranch: false,
             displayHash: false,
-            display:false
+            display: false
         }
     },
     arrow: {
@@ -58,7 +58,7 @@ var masterBranch = blackarrow.branch({
 });
 masterBranch.commit("Created new repo");
 masterBranch.tag({
-    tag :"v1.1.0.0",tagColor:"yellow"
+    tag: "v1.1.0.0", tagColor: "yellow"
 });
 
 var developBranch = blackarrow.branch({
@@ -198,6 +198,7 @@ stagingFeature0004Branch.commit("Fixed feature");
 stagingFeature0004Branch.merge(stagingBranch);
 stagingBranch.merge(developBranch);
 
+
 var prodBug0003Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
     parentBranch: prodSupportBranch,
@@ -210,4 +211,44 @@ prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, 
     dotStrokeWidth: 10,
     message: "Release v1.1.0.3 tagged",
     tag: "v1.1.0.3"
+});
+
+stagingBranch.tag({
+    displayTagBox: false,
+    tag: "v1.1.1.0",
+    tagColor: "orange"
+});
+stagingBranch.merge(masterBranch,{
+    dotStrokeWidth: 10,
+    message: "Release v1.1.1.0 tagged",
+    tag: "v1.1.1.0"
+});
+
+// fixing a develop 1.2 bug
+var devBug0006Branch = blackarrow.branch({
+    name: "bug/DEV-4876",
+    parentBranch: developBranch,
+    column: developFeatureCol
+});
+devBug0006Branch.commit("Fixed bug");
+devBug0006Branch.merge(developBranch);
+
+developBranch.merge(stagingBranch,{
+    displayTagBox: false,
+    tag: "v1.2.1.0",
+    tagColor: "orange"
+});
+
+var stagingFeature0005Branch = blackarrow.branch({
+    name: "feature/DEV-3212",
+    parentBranch: stagingBranch,
+    column: stagingFeatureCol
+});
+stagingFeature0005Branch.commit("Fixed feature");
+stagingFeature0005Branch.merge(stagingBranch);
+stagingBranch.merge(developBranch);
+stagingBranch.merge(masterBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.2.0.0 tagged",
+    tag: "v1.2.0.0"
 });
