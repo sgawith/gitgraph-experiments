@@ -84,7 +84,7 @@ prodSupportBranch.commit("Added unit tests");
 
 // fixing a develop 1.2 feature
 var feature0002Branch = blackarrow.branch({
-    name: "feature/DEV-0002",
+    name: "feature/DEV-1231",
     parentBranch: developBranch,
     column: developFeatureCol
 });
@@ -93,7 +93,7 @@ feature0002Branch.merge(developBranch);
 
 // fixing a develop 1.2 feature
 var feature0003Branch = blackarrow.branch({
-    name: "feature/DEV-0003",
+    name: "feature/DEV-1232",
     parentBranch: developBranch,
     column: developFeatureCol
 });
@@ -102,7 +102,7 @@ feature0003Branch.merge(developBranch);
 
 // fixing a develop 1.2 bug
 var bug0004Branch = blackarrow.branch({
-    name: "bug/DEV-0004",
+    name: "bug/DEV-1234",
     parentBranch: developBranch,
     column: developFeatureCol
 });
@@ -113,7 +113,7 @@ bug0004Branch.merge(developBranch);
 
 // Scenario 1 - fixing a critical bug in production
 var prodBug0001Branch = blackarrow.branch({
-    name: "hotfix/DEV-0001",
+    name: "hotfix/DEV-2132",
     parentBranch: prodSupportBranch,
     column: prodSupportFeatureCol
 });
@@ -122,7 +122,7 @@ prodBug0001Branch.merge(prodSupportBranch);
 
 
 var prodBug0002Branch = blackarrow.branch({
-    name: "hotfix/DEV-1332",
+    name: "hotfix/DEV-2133",
     parentBranch: prodSupportBranch,
     column: prodSupportFeatureCol
 });
@@ -131,7 +131,7 @@ prodBug0002Branch.merge(prodSupportBranch);
 
 
 var prodBug0003Branch = blackarrow.branch({
-    name: "hotfix/DEV-0001",
+    name: "hotfix/DEV-2134",
     parentBranch: prodSupportBranch,
     column: prodSupportFeatureCol
 });
