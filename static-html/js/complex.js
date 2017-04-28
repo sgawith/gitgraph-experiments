@@ -1,10 +1,10 @@
 var graphConfig = new GitGraph.Template({
     branch: {
-        colors: ["#000", "red", "green", "yellow", "orange", "purple", "pink", "grey"],
+        colors: ["#000", "red", "green", "yellow", "orange", "blue", "foreset green", "grey"],
         lineWidth: 3,
         spacingX: 60,
-        // mergeStyle: "straight",
-        showLabel: true,                // display branch names on graph
+        mergeStyle: "straight",
+        showLabel: true,
         labelFont: "normal 10pt Arial",
         labelRotation: 0
     },
@@ -31,7 +31,7 @@ var graphConfig = new GitGraph.Template({
     },
     arrow: {
         size: 8,
-        offset: 3
+        offset: 0
     }
 });
 
@@ -66,7 +66,7 @@ var developBranch = blackarrow.branch({
     parentBranch: masterBranch,
     column: developCol
 });
-developBranch.commit("Added unit tests");
+developBranch.commit("creating dev branch");
 
 var stagingBranch = blackarrow.branch({
     name: "staging",
@@ -82,6 +82,8 @@ var prodSupportBranch = blackarrow.branch({
 });
 prodSupportBranch.commit("Added unit tests");
 
+
+//DEVOLOPMENT
 // fixing a develop 1.2 feature
 var feature0002Branch = blackarrow.branch({
     name: "feature/DEV-1231",
@@ -90,6 +92,16 @@ var feature0002Branch = blackarrow.branch({
 });
 feature0002Branch.commit("Fixed feature");
 feature0002Branch.merge(developBranch);
+
+//PRODUCTION SUPPORT BRANCH
+// Scenario 1 - fixing a critical bug in production
+var prodBug0001Branch = blackarrow.branch({
+    name: "hotfix/DEV-2132",
+    parentBranch: prodSupportBranch,
+    column: prodSupportFeatureCol
+});
+prodBug0001Branch.commit("Fixed bug");
+prodBug0001Branch.merge(prodSupportBranch);
 
 // fixing a develop 1.2 feature
 var feature0003Branch = blackarrow.branch({
@@ -100,6 +112,15 @@ var feature0003Branch = blackarrow.branch({
 feature0003Branch.commit("Fixed feature");
 feature0003Branch.merge(developBranch);
 
+//STAGING BRANCH
+var stagingFeature0001Branch = blackarrow.branch({
+    name: "feature/DEV-1212",
+    parentBranch: stagingBranch,
+    column: stagingFeatureCol
+});
+stagingFeature0001Branch.commit("Fixed feature");
+stagingFeature0001Branch.merge(stagingBranch);
+
 // fixing a develop 1.2 bug
 var bug0004Branch = blackarrow.branch({
     name: "bug/DEV-1234",
@@ -109,18 +130,16 @@ var bug0004Branch = blackarrow.branch({
 bug0004Branch.commit("Fixed feature");
 bug0004Branch.merge(developBranch);
 
-//PRODUCTION SUPPORT BRANCH
-
-// Scenario 1 - fixing a critical bug in production
-var prodBug0001Branch = blackarrow.branch({
-    name: "hotfix/DEV-2132",
-    parentBranch: prodSupportBranch,
-    column: prodSupportFeatureCol
+//STAGING BRANCH
+var stagingFeature0002Branch = blackarrow.branch({
+    name: "feature/DEV-1213",
+    parentBranch: stagingBranch,
+    column: stagingFeatureCol
 });
-prodBug0001Branch.commit("Fixed bug");
-prodBug0001Branch.merge(prodSupportBranch);
+stagingFeature0002Branch.commit("Fixed feature");
+stagingFeature0002Branch.merge(stagingBranch);
 
-
+//PRODUCTION SUPPORT BRANCH
 var prodBug0002Branch = blackarrow.branch({
     name: "hotfix/DEV-2133",
     parentBranch: prodSupportBranch,
@@ -128,7 +147,47 @@ var prodBug0002Branch = blackarrow.branch({
 });
 prodBug0002Branch.commit("Fixed bug");
 prodBug0002Branch.merge(prodSupportBranch);
+prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.1.0.1 tagged",
+    tag: "v1.1.0.1"
+});
 
+// fixing a develop 1.2 feature
+var feature0004Branch = blackarrow.branch({
+    name: "feature/DEV-1236",
+    parentBranch: developBranch,
+    column: developFeatureCol
+});
+feature0004Branch.commit("Fixed feature");
+feature0004Branch.merge(developBranch);
+
+//STAGING BRANCH
+var stagingFeature0003Branch = blackarrow.branch({
+    name: "feature/DEV-1422",
+    parentBranch: stagingBranch,
+    column: stagingFeatureCol
+});
+stagingFeature0003Branch.commit("Fixed feature");
+stagingFeature0003Branch.merge(stagingBranch);
+
+// fixing a develop 1.2 bug
+var devBug0005Branch = blackarrow.branch({
+    name: "bug/DEV-5312",
+    parentBranch: developBranch,
+    column: developFeatureCol
+});
+devBug0005Branch.commit("Fixed feature");
+devBug0005Branch.merge(developBranch);
+
+//STAGING BRANCH
+var stagingFeature0004Branch = blackarrow.branch({
+    name: "feature/DEV-2137",
+    parentBranch: stagingBranch,
+    column: stagingFeatureCol
+});
+stagingFeature0004Branch.commit("Fixed feature");
+stagingFeature0004Branch.merge(stagingBranch);
 
 var prodBug0003Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
@@ -140,43 +199,6 @@ prodBug0003Branch.merge(prodSupportBranch);
 
 prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
     dotStrokeWidth: 10,
-    message: "Release v1.1.0.1 tagged",
-    tag: "v1.1.0.1"
+    message: "Release v1.1.0.2 tagged",
+    tag: "v1.1.0.2"
 });
-
-
-
-//STAGING BRANCH
-var stagingFeature0001Branch = blackarrow.branch({
-    name: "feature/DEV-1212",
-    parentBranch: stagingBranch,
-    column: stagingFeatureCol
-});
-stagingFeature0001Branch.commit("Fixed feature");
-stagingFeature0001Branch.merge(stagingBranch);
-
-var stagingFeature0001Branch = blackarrow.branch({
-    name: "feature/DEV-1212",
-    parentBranch: stagingBranch,
-    column: stagingFeatureCol
-});
-stagingFeature0001Branch.commit("Fixed feature");
-stagingFeature0001Branch.merge(stagingBranch);
-
-var stagingFeature0001Branch = blackarrow.branch({
-    name: "feature/DEV-1212",
-    parentBranch: stagingBranch,
-    column: stagingFeatureCol
-});
-stagingFeature0001Branch.commit("Fixed feature");
-stagingFeature0001Branch.merge(stagingBranch);
-
-
-
-prodSupportBranch.merge(developBranch).merge(stagingBranch).merge(masterBranch, {
-    dotStrokeWidth: 10,
-    message: "Release v1.1.0.1 tagged",
-    tag: "v1.1.0.1"
-});
-
-
