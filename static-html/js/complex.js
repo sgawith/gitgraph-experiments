@@ -26,7 +26,7 @@ var graphConfig = new GitGraph.Template({
             displayAuthor: false,
             displayBranch: false,
             displayHash: false,
-            display: false
+            display: true
         }
     },
     arrow: {
