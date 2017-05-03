@@ -42,7 +42,6 @@ const config = {
 };
 
 const masterColumn = 7;
-const prodSupportColumn = 6;
 const prodSupportFeatureColumn = 5;
 const stagingColumn = 4;
 const stagingFeatureColumn = 3;
@@ -50,8 +49,7 @@ const developColumn = 2;
 const developFeatureColumn = 1;
 
 const masterColour = "#00A4A7";             // DLR
-const prodSupportColour = "#b36305";        // Bakerloo line
-const prodSupportFeatureColour = "#F3A9BB"; // Hammersmith & City line
+const hotfixFeatureColour = "#F3A9BB"; // Hammersmith & City line
 const stagingColour = "#ffd300";            // Circle line
 const stagingFeatureColour = "#a0a5a9";     // Jubilee line
 const developColour = "#0098d4";            // Victoria line
@@ -70,7 +68,7 @@ masterBranch.commit({
     message: "Created new repo"
 });
 masterBranch.tag({
-    tag: "v1.1.0.0",
+    tag: "v1.1.0",
     tagColor: masterColour
 });
 
@@ -87,24 +85,13 @@ developBranch.commit({
 
 const stagingBranch = blackarrow.branch({
     name: "staging",
-    parentBranch: developBranch,
+    parentBranch: masterBranch,
     column: stagingColumn,
     color: stagingColour
 });
 stagingBranch.commit({
     message: "Created staging branch",
     color: stagingColour
-});
-
-const prodSupportBranch = blackarrow.branch({
-    name: "production-support",
-    parentBranch: masterBranch,
-    column: prodSupportColumn,
-    color: prodSupportColour
-});
-prodSupportBranch.commit({
-    message: "Added unit tests",
-    color: prodSupportColour
 });
 
 
@@ -124,25 +111,24 @@ feature0002Branch.merge(developBranch, {color: developColour});
 
 //PRODUCTION SUPPORT BRANCH
 // Scenario 1 - fixing a critical bug in production
-const prodBug0001Branch = blackarrow.branch({
+const hotfix0001Branch = blackarrow.branch({
     name: "hotfix/DEV-2132",
-    parentBranch: prodSupportBranch,
+    parentBranch: masterBranch,
     column: prodSupportFeatureColumn,
-    color: prodSupportFeatureColour
+    color: hotfixFeatureColour
 });
-prodBug0001Branch.commit({
+hotfix0001Branch.commit({
     message: "Fixed bug",
-    color: prodSupportFeatureColour
+    color: masterColour
 });
-prodBug0001Branch.merge(prodSupportBranch, {color: prodSupportColour});
-prodSupportBranch
+hotfix0001Branch.merge(stagingBranch, {color: masterColour});
+stagingBranch
     .merge(developBranch, {color: developColour})
-    .merge(stagingBranch, {color: stagingColour})
     .merge(masterBranch, {
         color: masterColour,
         dotStrokeWidth: 10,
-        message: "Release v1.1.0.1 tagged",
-        tag: "v1.1.0.1",
+        message: "Release v1.1.1 tagged",
+        tag: "v1.1.1",
         tagColor: masterColour
     });
 
@@ -201,23 +187,22 @@ stagingBug0002Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour});
 
 //PRODUCTION SUPPORT BRANCH
-const prodBug0002Branch = blackarrow.branch({
+const hotfix0002Branch = blackarrow.branch({
     name: "hotfix/DEV-2133",
-    parentBranch: prodSupportBranch,
+    parentBranch: masterBranch,
     column: prodSupportFeatureColumn,
-    color: prodSupportFeatureColour
+    color: hotfixFeatureColour
 });
-prodBug0002Branch.commit({
-    color: prodSupportFeatureColour,
+hotfix0002Branch.commit({
+    color: hotfixFeatureColour,
     message: "Fixed bug"
 });
-prodBug0002Branch.merge(prodSupportBranch, {color: prodSupportColour});
-prodSupportBranch.merge(developBranch, {color: developColour})
-    .merge(stagingBranch, {color: stagingColour})
+hotfix0002Branch.merge(stagingBranch, {color: masterColour});
+stagingBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         dotStrokeWidth: 10,
-        message: "Release v1.1.0.2 tagged",
-        tag: "v1.1.0.2",
+        message: "Release v1.1.2 tagged",
+        tag: "v1.1.2",
         tagColor: masterColour,
         color: masterColour
     });
@@ -277,40 +262,26 @@ stagingFeature0004Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour});
 
 
-const prodBug0003Branch = blackarrow.branch({
+const hotfix0003Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
-    parentBranch: prodSupportBranch,
+    parentBranch: masterBranch,
     column: prodSupportFeatureColumn,
-    color: prodSupportFeatureColour
+    color: hotfixFeatureColour
 });
-prodBug0003Branch.commit({
+hotfix0003Branch.commit({
     message: "Fixed bug",
-    color: prodSupportFeatureColour
+    color: hotfixFeatureColour
 });
-prodBug0003Branch.merge(prodSupportBranch, {color: prodSupportColour});
+hotfix0003Branch.merge(stagingBranch, {color: masterColour});
 
-prodSupportBranch.merge(developBranch, {color: developColour})
-    .merge(stagingBranch, {color: stagingColour})
+stagingBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         dotStrokeWidth: 10,
-        message: "Release v1.1.0.3 tagged",
-        tag: "v1.1.0.3",
+        message: "Release v1.1.3 tagged",
+        tag: "v1.1.3",
         tagColor: masterColour,
         color: masterColour
     });
-
-stagingBranch.tag({
-    displayTagBox: true,
-    tag: "v1.1.1.0",
-    tagColor: stagingColour
-});
-stagingBranch.merge(masterBranch,{
-    dotStrokeWidth: 10,
-    message: "Release v1.1.1.0 tagged",
-    tag: "v1.1.1.0",
-    tagColor: masterColour,
-    color: masterColour
-});
 
 // fixing a develop 1.2 bug
 const devBug0006Branch = blackarrow.branch({
@@ -325,30 +296,29 @@ devBug0006Branch.commit({
 });
 devBug0006Branch.merge(developBranch, {color: developColour});
 
-const prodBug0004Branch = blackarrow.branch({
+const hotfix0004Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
-    parentBranch: prodSupportBranch,
+    parentBranch: masterBranch,
     column: prodSupportFeatureColumn,
-    color: prodSupportFeatureColour
+    color: hotfixFeatureColour
 });
-prodBug0004Branch.commit({
+hotfix0004Branch.commit({
     message: "Fixed bug",
-    color: prodSupportFeatureColour
+    color: hotfixFeatureColour
 });
-prodBug0004Branch.merge(prodSupportBranch, {color: prodSupportColour});
-prodSupportBranch.merge(developBranch, {color: developColour})
-    .merge(stagingBranch, {color: stagingColour})
+hotfix0004Branch.merge(stagingBranch, {color: masterColour});
+stagingBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         dotStrokeWidth: 10,
-        message: "Release v1.1.1.1 tagged",
-        tag: "v1.1.1.1",
+        message: "Release v1.1.4 tagged",
+        tag: "v1.1.4",
         tagColor: masterColour,
         color: masterColour
     });
 
 developBranch.merge(stagingBranch,{
     displayTagBox: true,
-    tag: "v1.2.0.0",
+    tag: "v1.2.0",
     tagColor: stagingColour,
     color: stagingColour
 });
@@ -360,22 +330,15 @@ const stagingFeature0005Branch = blackarrow.branch({
     color: stagingFeatureColour
 });
 stagingFeature0005Branch.commit({
-    message: "Hot fix for 1.2.0.1",
+    message: "Hot fix for 1.2.1",
     color: stagingFeatureColour
 });
 stagingFeature0005Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour});
 stagingBranch.merge(masterBranch, {
     dotStrokeWidth: 10,
-    message: "Release v1.2.0.1 tagged",
-    tag: "v1.2.0.1",
+    message: "Release v1.2.1 tagged",
+    tag: "v1.2.1",
     tagColor: masterColour,
     color: masterColour
 });
-
-stagingBranch.tag({
-    displayTagBox: true,
-    tag: "v1.2.1.0",
-    tagColor: stagingColour
-});
-
