@@ -49,7 +49,8 @@ const developColumn = 2;
 const developFeatureColumn = 1;
 
 const masterColour = "#00A4A7";             // DLR
-const hotfixFeatureColour = "#CC3333"; // Hammersmith & City line
+const hotfixFeatureColour = "#e32017";      // Central line
+const hotfixLabelColour = "#f3a9bb";        // Hammersmith & City line
 const stagingColour = "#ffd300";            // Circle line
 const stagingFeatureColour = "#a0a5a9";     // Jubilee line
 const developColour = "#0098d4";            // Victoria line
@@ -119,9 +120,9 @@ const hotfix0001Branch = blackarrow.branch({
 });
 hotfix0001Branch.commit({
     message: "Fixed bug",
-    color: masterColour
+    color: hotfixLabelColour
 });
-hotfix0001Branch.merge(stagingBranch, {color: masterColour});
+hotfix0001Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch
     .merge(developBranch, {color: developColour})
     .merge(masterBranch, {
@@ -193,10 +194,10 @@ const hotfix0002Branch = blackarrow.branch({
     color: hotfixFeatureColour
 });
 hotfix0002Branch.commit({
-    color: hotfixFeatureColour,
+    color: hotfixLabelColour,
     message: "Fixed bug"
 });
-hotfix0002Branch.merge(stagingBranch, {color: masterColour});
+hotfix0002Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         dotStrokeWidth: 10,
@@ -269,9 +270,9 @@ const hotfix0003Branch = blackarrow.branch({
 });
 hotfix0003Branch.commit({
     message: "Fixed bug",
-    color: hotfixFeatureColour
+    color: hotfixLabelColour
 });
-hotfix0003Branch.merge(stagingBranch, {color: masterColour});
+hotfix0003Branch.merge(stagingBranch, {color: stagingColour});
 
 stagingBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
@@ -303,9 +304,9 @@ const hotfix0004Branch = blackarrow.branch({
 });
 hotfix0004Branch.commit({
     message: "Fixed bug",
-    color: hotfixFeatureColour
+    color: hotfixLabelColour
 });
-hotfix0004Branch.merge(stagingBranch, {color: masterColour});
+hotfix0004Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         dotStrokeWidth: 10,
