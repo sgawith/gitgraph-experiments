@@ -9,7 +9,7 @@ const graphConfig = new GitGraph.Template({
     },
     commit: {
         showMessage: false,
-        sha1:"Dev Team",
+        sha1: "Dev Team",
         spacingY: -30,
         dot: {
             size: 8,
@@ -28,8 +28,8 @@ const graphConfig = new GitGraph.Template({
         offset: 5
     },
     shouldDisplayTooltipsInCompactMode: true, // default = true
-    tooltipHTMLFormatter: function ( commit ) {
-        return "Dev team: "+commit.message;
+    tooltipHTMLFormatter: function (commit) {
+        return "Dev team: " + commit.message;
     }
 });
 
@@ -38,10 +38,10 @@ const config = {
     mode: "extended",
     orientation: "vertical-reverse",
     elementId: "current-pattern",
-    mode:"compact"
+    mode: "compact"
 };
 
-const masterColumn = 7;
+const masterColumn = 6;
 const prodSupportFeatureColumn = 5;
 const stagingColumn = 4;
 const stagingFeatureColumn = 3;
@@ -49,7 +49,7 @@ const developColumn = 2;
 const developFeatureColumn = 1;
 
 const masterColour = "#00A4A7";             // DLR
-const hotfixFeatureColour = "#F3A9BB"; // Hammersmith & City line
+const hotfixFeatureColour = "#CC3333"; // Hammersmith & City line
 const stagingColour = "#ffd300";            // Circle line
 const stagingFeatureColour = "#a0a5a9";     // Jubilee line
 const developColour = "#0098d4";            // Victoria line
@@ -113,7 +113,7 @@ feature0002Branch.merge(developBranch, {color: developColour});
 // Scenario 1 - fixing a critical bug in production
 const hotfix0001Branch = blackarrow.branch({
     name: "hotfix/DEV-2132",
-    parentBranch: masterBranch,
+    parentBranch: stagingBranch,
     column: prodSupportFeatureColumn,
     color: hotfixFeatureColour
 });
@@ -186,10 +186,9 @@ stagingBug0002Branch.commit({
 stagingBug0002Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour});
 
-//PRODUCTION SUPPORT BRANCH
 const hotfix0002Branch = blackarrow.branch({
     name: "hotfix/DEV-2133",
-    parentBranch: masterBranch,
+    parentBranch: stagingBranch,
     column: prodSupportFeatureColumn,
     color: hotfixFeatureColour
 });
@@ -264,7 +263,7 @@ stagingBranch.merge(developBranch, {color: developColour});
 
 const hotfix0003Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
-    parentBranch: masterBranch,
+    parentBranch: stagingBranch,
     column: prodSupportFeatureColumn,
     color: hotfixFeatureColour
 });
@@ -298,7 +297,7 @@ devBug0006Branch.merge(developBranch, {color: developColour});
 
 const hotfix0004Branch = blackarrow.branch({
     name: "hotfix/DEV-2134",
-    parentBranch: masterBranch,
+    parentBranch: stagingBranch,
     column: prodSupportFeatureColumn,
     color: hotfixFeatureColour
 });
@@ -316,9 +315,10 @@ stagingBranch.merge(developBranch, {color: developColour})
         color: masterColour
     });
 
-developBranch.merge(stagingBranch,{
-    displayTagBox: true,
-    tag: "v1.2.0",
+developBranch.merge(stagingBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.2.0-rc1 tagged",
+    tag: "v1.2.0-rc1",
     tagColor: stagingColour,
     color: stagingColour
 });
@@ -337,8 +337,8 @@ stagingFeature0005Branch.merge(stagingBranch, {color: stagingColour});
 stagingBranch.merge(developBranch, {color: developColour});
 stagingBranch.merge(masterBranch, {
     dotStrokeWidth: 10,
-    message: "Release v1.2.1 tagged",
-    tag: "v1.2.1",
+    message: "Release v1.2.0 tagged",
+    tag: "v1.2.0",
     tagColor: masterColour,
     color: masterColour
 });
