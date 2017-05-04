@@ -42,23 +42,23 @@ const config = {
 };
 
 const masterColumn = 6;
-const prodSupportFeatureColumn = 5;
-const stagingColumn = 4;
-const stagingFeatureColumn = 3;
+const hotfixColumn = 5;
+const releaseColumn = 4;
+const releaseFeatureColumn = 3;
 const developColumn = 2;
 const developFeatureColumn = 1;
 
 const masterColour = "#00A4A7";             // DLR
-const hotfixFeatureColour = "#e32017";      // Central line
+const hotfixColour = "#e32017";      // Central line
 const hotfixLabelColour = "#f3a9bb";        // Hammersmith & City line
-const stagingColour = "#ffd300";            // Circle line
-const stagingFeatureColour = "#a0a5a9";     // Jubilee line
+const releaseColour = "#ffd300";            // Circle line
+const releaseFeatureColour = "#a0a5a9";     // Jubilee line
 const developColour = "#0098d4";            // Victoria line
 const developFeatureColour = "#ee7c0e";     // Overground
 
-const blackarrow = new GitGraph(config);
+const gitGraph = new GitGraph(config);
 
-const masterBranch = blackarrow.branch({
+const masterBranch = gitGraph.branch({
     name: "master",
     column: masterColumn,
     color: masterColour,
@@ -73,7 +73,7 @@ masterBranch.tag({
     tagColor: masterColour
 });
 
-const developBranch = blackarrow.branch({
+const developBranch = gitGraph.branch({
     name: "development",
     parentBranch: masterBranch,
     column: developColumn,
@@ -84,21 +84,21 @@ developBranch.commit({
     color: developColour
 });
 
-const stagingBranch = blackarrow.branch({
-    name: "staging",
+const releaseBranch = gitGraph.branch({
+    name: "release",
     parentBranch: masterBranch,
-    column: stagingColumn,
-    color: stagingColour
+    column: releaseColumn,
+    color: releaseColour
 });
-stagingBranch.commit({
-    message: "Created staging branch",
-    color: stagingColour
+releaseBranch.commit({
+    message: "Created release branch",
+    color: releaseColour
 });
 
 
 //DEVELOPMENT
 // fixing a develop 1.2 feature
-const feature0002Branch = blackarrow.branch({
+const feature0002Branch = gitGraph.branch({
     name: "feature/DEV-1231",
     parentBranch: developBranch,
     column: developFeatureColumn,
@@ -112,18 +112,18 @@ feature0002Branch.merge(developBranch, {color: developColour});
 
 //PRODUCTION SUPPORT BRANCH
 // Scenario 1 - fixing a critical bug in production
-const hotfix0001Branch = blackarrow.branch({
+const hotfix2132Branch = gitGraph.branch({
     name: "hotfix/DEV-2132",
-    parentBranch: stagingBranch,
-    column: prodSupportFeatureColumn,
-    color: hotfixFeatureColour
+    parentBranch: releaseBranch,
+    column: hotfixColumn,
+    color: hotfixColour
 });
-hotfix0001Branch.commit({
+hotfix2132Branch.commit({
     message: "Fixed bug",
     color: hotfixLabelColour
 });
-hotfix0001Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch
+hotfix2132Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch
     .merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         color: masterColour,
@@ -133,72 +133,73 @@ stagingBranch
         tagColor: masterColour
     });
 
-// fixing a develop 1.2 feature
-const feature0003Branch = blackarrow.branch({
+// implementing a develop 1.2 feature
+const feature1232Branch = gitGraph.branch({
     name: "feature/DEV-1232",
     parentBranch: developBranch,
     column: developFeatureColumn,
     color: developFeatureColour
 });
-feature0003Branch.commit({
+feature1232Branch.commit({
     color: developFeatureColour,
     message: "Fixed feature"
 });
-feature0003Branch.merge(developBranch, {color: developColour});
+feature1232Branch.merge(developBranch, {color: developColour});
 
-//STAGING BRANCH
-const stagingBug0001Branch = blackarrow.branch({
-    name: "bug/DEV-1212",
-    parentBranch: stagingBranch,
-    column: stagingFeatureColumn,
-    color: stagingFeatureColour
+// fixing a non-critical 1.1 bug
+const bug1212Branch = gitGraph.branch({
+    name: "bugfix/DEV-1212",
+    parentBranch: releaseBranch,
+    column: releaseFeatureColumn,
+    color: releaseFeatureColour
 });
-stagingBug0001Branch.commit({
+bug1212Branch.commit({
     message: "Fixed bug",
-    color: stagingFeatureColour
+    color: releaseFeatureColour
 });
-stagingBug0001Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour});
+bug1212Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
 
-// fixing a develop 1.2 bug
-const bug0004Branch = blackarrow.branch({
-    name: "bug/DEV-1234",
+// fixing a 1.2 bug
+const bug1234Branch = gitGraph.branch({
+    name: "bugfix/DEV-1234",
     parentBranch: developBranch,
     column: developFeatureColumn,
     color: developFeatureColour
 });
-bug0004Branch.commit({
-    message: "Fixed feature",
+bug1234Branch.commit({
+    message: "Fixed bug",
     color: developFeatureColour
 });
-bug0004Branch.merge(developBranch, {color: developColour});
+bug1234Branch.merge(developBranch, {color: developColour});
 
-//STAGING BRANCH
-const stagingBug0002Branch = blackarrow.branch({
+// fixing a non-critical 1.1 bug
+const bug1213Branch = gitGraph.branch({
     name: "bug/DEV-1213",
-    parentBranch: stagingBranch,
-    column: stagingFeatureColumn,
-    color: stagingFeatureColour
+    parentBranch: releaseBranch,
+    column: releaseFeatureColumn,
+    color: releaseFeatureColour
 });
-stagingBug0002Branch.commit({
+bug1213Branch.commit({
     message: "Fixed bug",
-    color: stagingFeatureColour
+    color: releaseFeatureColour
 });
-stagingBug0002Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour});
+bug1213Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
 
-const hotfix0002Branch = blackarrow.branch({
+// Fixing a critical 1.1 bug
+const hotfix2133Branch = gitGraph.branch({
     name: "hotfix/DEV-2133",
-    parentBranch: stagingBranch,
-    column: prodSupportFeatureColumn,
-    color: hotfixFeatureColour
+    parentBranch: releaseBranch,
+    column: hotfixColumn,
+    color: hotfixColour
 });
-hotfix0002Branch.commit({
+hotfix2133Branch.commit({
     color: hotfixLabelColour,
     message: "Fixed bug"
 });
-hotfix0002Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour})
+hotfix2133Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour})
     .merge(masterBranch, {
         dotStrokeWidth: 10,
         message: "Release v1.1.2 tagged",
@@ -207,136 +208,144 @@ stagingBranch.merge(developBranch, {color: developColour})
         color: masterColour
     });
 
-// fixing a develop 1.2 feature
-const feature0004Branch = blackarrow.branch({
+// implementing a 1.2 story
+const feature1236Branch = gitGraph.branch({
     name: "feature/DEV-1236",
     parentBranch: developBranch,
     column: developFeatureColumn,
     color: developFeatureColour
 });
-feature0004Branch.commit({
+feature1236Branch.commit({
     color: developFeatureColour,
-    message: "Fixed feature"
+    message: "Added new feature"
 });
-feature0004Branch.merge(developBranch, {color: developColour});
+feature1236Branch.commit({
+    color: developFeatureColour,
+    message: "Added unit tests"
+});
+feature1236Branch.merge(developBranch, {color: developColour});
 
-//STAGING BRANCH
-const stagingFeature0003Branch = blackarrow.branch({
+// implementing a 1.1 story
+const feature1422Branch = gitGraph.branch({
     name: "feature/DEV-1422",
-    parentBranch: stagingBranch,
-    column: stagingFeatureColumn,
-    color: stagingFeatureColour
+    parentBranch: releaseBranch,
+    column: releaseFeatureColumn,
+    color: releaseFeatureColour
 });
-stagingFeature0003Branch.commit({
+feature1422Branch.commit({
     message: "Fixed feature",
-    color: stagingFeatureColour
+    color: releaseFeatureColour
 });
-stagingFeature0003Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour});
+feature1422Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
 
-// fixing a develop 1.2 bug
-const devBug0005Branch = blackarrow.branch({
+// fixing a 1.2 bug
+const bug5312Branch = gitGraph.branch({
     name: "bug/DEV-5312",
     parentBranch: developBranch,
     column: developFeatureColumn,
     color: developFeatureColour
 });
-devBug0005Branch.commit({
-    message: "Fixed feature",
+bug5312Branch.commit({
+    message: "Fixed bug",
     color: developFeatureColour
 });
-devBug0005Branch.merge(developBranch, {color: developColour});
+bug5312Branch.merge(developBranch, {color: developColour});
 
-//STAGING BRANCH
-const stagingFeature0004Branch = blackarrow.branch({
+// implementing a 1.1 story
+const feature2137Branch = gitGraph.branch({
     name: "feature/DEV-2137",
-    parentBranch: stagingBranch,
-    column: stagingFeatureColumn,
-    color: stagingFeatureColour
+    parentBranch: releaseBranch,
+    column: releaseFeatureColumn,
+    color: releaseFeatureColour
 });
-stagingFeature0004Branch.commit({
-    message: "Fixed feature",
-    color: stagingFeatureColour
+feature2137Branch.commit({
+    message: "Updated UI",
+    color: releaseFeatureColour
 });
-stagingFeature0004Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour});
+feature2137Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
 
-
-const hotfix0003Branch = blackarrow.branch({
+// fixing a critical 1.1 bug
+const hotfix2134Branch = gitGraph.branch({
     name: "hotfix/DEV-2134",
-    parentBranch: stagingBranch,
-    column: prodSupportFeatureColumn,
-    color: hotfixFeatureColour
+    parentBranch: releaseBranch,
+    column: hotfixColumn,
+    color: hotfixColour
 });
-hotfix0003Branch.commit({
+hotfix2134Branch.commit({
     message: "Fixed bug",
     color: hotfixLabelColour
 });
-hotfix0003Branch.merge(stagingBranch, {color: stagingColour});
+hotfix2134Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
+releaseBranch.merge(masterBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.1.3 tagged",
+    tag: "v1.1.3",
+    tagColor: masterColour,
+    color: masterColour
+});
 
-stagingBranch.merge(developBranch, {color: developColour})
-    .merge(masterBranch, {
-        dotStrokeWidth: 10,
-        message: "Release v1.1.3 tagged",
-        tag: "v1.1.3",
-        tagColor: masterColour,
-        color: masterColour
-    });
-
-// fixing a develop 1.2 bug
-const devBug0006Branch = blackarrow.branch({
+// fixing a 1.2 bug
+const bug4876Branch = gitGraph.branch({
     name: "bug/DEV-4876",
     parentBranch: developBranch,
     column: developFeatureColumn,
     color: developFeatureColour
 });
-devBug0006Branch.commit({
+bug4876Branch.commit({
     message: "Fixed bug",
     color: developFeatureColour
 });
-devBug0006Branch.merge(developBranch, {color: developColour});
+bug4876Branch.merge(developBranch, {color: developColour});
 
-const hotfix0004Branch = blackarrow.branch({
-    name: "hotfix/DEV-2134",
-    parentBranch: stagingBranch,
-    column: prodSupportFeatureColumn,
-    color: hotfixFeatureColour
+// fixing a critical 1.1 bug
+const hotfix2764Branch = gitGraph.branch({
+    name: "hotfix/DEV-2764",
+    parentBranch: releaseBranch,
+    column: hotfixColumn,
+    color: hotfixColour
 });
-hotfix0004Branch.commit({
+hotfix2764Branch.commit({
     message: "Fixed bug",
     color: hotfixLabelColour
 });
-hotfix0004Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour})
-    .merge(masterBranch, {
-        dotStrokeWidth: 10,
-        message: "Release v1.1.4 tagged",
-        tag: "v1.1.4",
-        tagColor: masterColour,
-        color: masterColour
-    });
+hotfix2764Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
+releaseBranch.merge(masterBranch, {
+    dotStrokeWidth: 10,
+    message: "Release v1.1.4 tagged",
+    tag: "v1.1.4",
+    tagColor: masterColour,
+    color: masterColour
+});
 
-developBranch.merge(stagingBranch, {
+// preparing a 1.2 release candidate
+developBranch.merge(releaseBranch, {
     dotStrokeWidth: 10,
     message: "Release v1.2.0-rc1 tagged",
     tag: "v1.2.0-rc1",
-    tagColor: stagingColour,
-    color: stagingColour
+    tagColor: releaseColour,
+    color: releaseColour
 });
 
-const stagingFeature0005Branch = blackarrow.branch({
+// fixing a bug found in 1.2 UAT
+const bug3212Branch = gitGraph.branch({
     name: "feature/DEV-3212",
-    parentBranch: stagingBranch,
-    column: stagingFeatureColumn,
-    color: stagingFeatureColour
+    parentBranch: releaseBranch,
+    column: releaseFeatureColumn,
+    color: releaseFeatureColour
 });
-stagingFeature0005Branch.commit({
-    message: "Hot fix for 1.2.1",
-    color: stagingFeatureColour
+bug3212Branch.commit({
+    message: "Screen no longer flipped vertically.",
+    color: releaseFeatureColour
 });
-stagingFeature0005Branch.merge(stagingBranch, {color: stagingColour});
-stagingBranch.merge(developBranch, {color: developColour});
-stagingBranch.merge(masterBranch, {
+
+// releasing 1.2
+bug3212Branch.merge(releaseBranch, {color: releaseColour});
+releaseBranch.merge(developBranch, {color: developColour});
+releaseBranch.merge(masterBranch, {
     dotStrokeWidth: 10,
     message: "Release v1.2.0 tagged",
     tag: "v1.2.0",
