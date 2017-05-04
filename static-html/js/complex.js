@@ -332,7 +332,7 @@ developBranch.merge(releaseBranch, {
 
 // fixing a bug found in 1.2 UAT
 const bug3212Branch = gitGraph.branch({
-    name: "feature/DEV-3212",
+    name: "bugfix/DEV-3212",
     parentBranch: releaseBranch,
     column: releaseFeatureColumn,
     color: releaseFeatureColour
